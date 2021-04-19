@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SampleWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,21 @@ namespace SampleWebApp.Controllers
 
         public IActionResult Privacy()
         {
+            string connectionString = @"Data Source=demosqlfelcu.database.windows.net;Initial Catalog=Demodb;User ID=federico;Password=Docker2020!!";
+            ViewBag.Ciccio = string.Empty;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand("SELECT TOP 2 * FROM TestTable", con))
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("{0} {1}", reader.GetInt32(0), reader.GetString(1));
+                        ViewBag.Ciccio += string.Format("{0} {1}", reader.GetInt32(0), reader.GetString(1));
+                    }
+                }
+            }
             return View();
         }
 

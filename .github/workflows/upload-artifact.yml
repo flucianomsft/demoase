@@ -1,4 +1,4 @@
-name: CI
+name: UploadArtifactsMultiStage
 
 # Controls when the action will run. 
 on:
